@@ -3,6 +3,8 @@ package com.image.zoom;
 import android.util.Log;
 import android.widget.ImageView.ScaleType;
 
+import com.facebook.infer.annotation.Assertions;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
@@ -39,8 +41,8 @@ public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
     @Override
     public Map<String,Integer> getCommandsMap() {
         Log.d("React"," View manager getCommandsMap:");
-        return MapBuilder.of("setImageScale",
-                             COMMAND_SET_SCALE);
+        return MapBuilder.of("resetScale",
+                             COMMAND_RESET_SCALE);
     }
     
     @Override
@@ -72,22 +74,6 @@ public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
             ImageEvent.eventNameForType(ImageEvent.ON_MATRIX), MapBuilder.of("registrationName", "onMatrixChange")
         );
     }
-
-    @Override
- public RSSignatureCaptureMainView createViewInstance(ThemedReactContext context) {
-  Log.d("React"," View manager createViewInstance:");
-  return new RSSignatureCaptureMainView(context, mCurrentActivity);
- }
-
- @Override
- public Map<String,Integer> getCommandsMap() {
-  Log.d("React"," View manager getCommandsMap:");
-  return MapBuilder.of(
-    "saveImage",
-    COMMAND_SAVE_IMAGE,
-    "resetImage",
-    COMMAND_RESET_IMAGE);
- }
 
     @ReactProp(name = "tintColor", customType = "Color")
     public void setTintColor(PhotoViewWrapper view, @Nullable Integer tintColor) {
