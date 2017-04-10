@@ -19,6 +19,8 @@ import javax.annotation.Nullable;
  */
 public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
 
+    public static final int COMMAND_RESET_SCALE = 1;
+    
     @Override
     public String getName() {
         return "ImageViewZoom";
@@ -33,6 +35,32 @@ public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
     public void setSource(final PhotoViewWrapper view, ReadableMap params) {
         view.setSource(params);
     }
+    
+    @Override
+    public Map<String,Integer> getCommandsMap() {
+        Log.d("React"," View manager getCommandsMap:");
+        return MapBuilder.of("setImageScale",
+                             COMMAND_SET_SCALE);
+    }
+    
+    @Override
+    public void receiveCommand(PhotoViewWrapper view,
+                               int commandType,
+                               @Nullable ReadableArray args) {
+        Assertions.assertNotNull(view);
+        Assertions.assertNotNull(args);
+        switch (commandType) {
+            case COMMAND_RESET_SCALE: {
+                view.setCustomScale(1);
+                return;
+            }
+            default:
+                throw new IllegalArgumentException(String.format(
+                                                                 "Unsupported command %d received by %s.",
+                                                                 commandType,
+                                                                 getClass().getSimpleName()));
+        }
+    }
 
     @Override
     public @Nullable
@@ -45,10 +73,21 @@ public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
         );
     }
 
-    @ReactMethod
-    public void setScale(PhotoViewWrapper view, float scale) {
-        view.setScale(scale);
-    }
+    @Override
+ public RSSignatureCaptureMainView createViewInstance(ThemedReactContext context) {
+  Log.d("React"," View manager createViewInstance:");
+  return new RSSignatureCaptureMainView(context, mCurrentActivity);
+ }
+
+ @Override
+ public Map<String,Integer> getCommandsMap() {
+  Log.d("React"," View manager getCommandsMap:");
+  return MapBuilder.of(
+    "saveImage",
+    COMMAND_SAVE_IMAGE,
+    "resetImage",
+    COMMAND_RESET_IMAGE);
+ }
 
     @ReactProp(name = "tintColor", customType = "Color")
     public void setTintColor(PhotoViewWrapper view, @Nullable Integer tintColor) {
