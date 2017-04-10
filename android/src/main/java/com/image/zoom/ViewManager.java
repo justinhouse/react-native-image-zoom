@@ -45,6 +45,11 @@ public class ViewManager extends SimpleViewManager<PhotoViewWrapper> {
         );
     }
 
+    @ReactMethod
+    public void setScale(PhotoViewWrapper view, float scale) {
+        view.setScale(scale);
+    }
+
     @ReactProp(name = "tintColor", customType = "Color")
     public void setTintColor(PhotoViewWrapper view, @Nullable Integer tintColor) {
         if (tintColor == null) {
