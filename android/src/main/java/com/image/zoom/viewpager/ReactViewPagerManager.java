@@ -39,6 +39,10 @@ public class ReactViewPagerManager extends ViewGroupManager<ReactViewPager> {
         return new ReactViewPager(reactContext);
     }
 
+    @ReactProp(name = "currentItem", defaultInt = 0)
+    public void setCurrentItem(ReactViewPager viewPager, int currentItem) {
+        viewPager.setCurrentItem(currentItem);
+    }
 
     @ReactProp(name = "scrollEnabled", defaultBoolean = true)
     public void setScrollEnabled(ReactViewPager viewPager, boolean value) {
